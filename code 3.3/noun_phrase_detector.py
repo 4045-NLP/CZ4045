@@ -17,16 +17,19 @@ def normalise(word):
 
 def get_terms(tree,grammar):
     for leaf in leaves(tree,grammar):
-        term = [ normalise(w) for w,t in leaf if bool(2 <= len(w) <= 40) ]	
+        term = [ normalise(w) for w,t in leaf ]	
         yield term		
 		
 def get_np(text):
-	re = r'(?:\w+(?:-\w+)*)|(?:[-+*()$]*(?:\d.?)*\d+\%?)|(?:[.,;:"\'?!])'
+	re = r'(?:\w+[nN]\'[tT])|(?:\w+(?:-\w+)*)|(?:[-+*()$]*(?:\d.?)*\d+\%?)|(?:\'[sS])|(?:[.,;:"?!])'
 	grammar = r"""
-	NNB:{<JJ.*|VBG|NN.*>*<NN.*>}
-	JJN:{<DT><JJ>}
-	NP:{<DT>?(<NN.*><IN>?)*<NN.*>}
+	MOD:{<JJ.*|VBG|CD>}	#Modifier
+	NNB:{<MOD|NN.*>*<NN.*>}	#Noun + noun
+	JJN:{<DT><MOD>}	#Adjectives as Nouns
+	NP:{<RB.*>?<DT|PRP\$>?(<NN.*><IN|POS>?)*<NN.*>}
+	{<PRP>}
 	{<NNB>}
+	{<JJN>}
 	"""
 	tokens = nltk.regexp_tokenize(text, re)
 	cp = nltk.RegexpParser(grammar)	
@@ -37,15 +40,9 @@ def get_np(text):
 
 	terms = get_terms(tree,'NP')	
 	np_list = []
-	for term in terms:
-		#print term
-		if term != [] and term[0] in stopwords:	#remove the first stopword
-			term.pop(0)			
+	for term in terms:		
 		np_list.append(str(' '.join(term)))
-		
-	terms = get_terms(tree,'JJN')
-	for term in terms:
-		np_list.append(str(' '.join(term)))		
 	while '' in np_list:
 		np_list.remove('')
+		
 	return np_list
