@@ -1,20 +1,20 @@
-phone
-work
-time
-case
-month
-car
-star
-iphone
-charger
-slot design
-powerbear
-thing
-tablet
-s4
-product
-problem
-pro
-price
-people
-ipad
+phone, 0.0391768447481
+case, 0.0285755493515
+iphone, 0.0104379359013
+battery, 0.00746979688969
+product, 0.00723579545036
+device, 0.00721960667154
+time, 0.00639515631738
+price, 0.00610022620139
+screen, 0.00607079205808
+charger, 0.0054906450934
+work, 0.00473683668318
+problem, 0.00448694080647
+screen protector, 0.00431710579956
+day, 0.00418494649609
+way, 0.00396477910411
+star, 0.00349795359119
+thing, 0.0034829421781
+charge, 0.00335284326466
+button, 0.00314180045711
+fit, 0.00311001158234

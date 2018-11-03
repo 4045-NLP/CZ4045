@@ -5,7 +5,7 @@ lemmatizer = nltk.WordNetLemmatizer()
 stopwords = stopwords.words('english')
 
 def leaves(tree,grammar):
-    """Finds NP (nounphrase) leaf nodes of a chunk tree."""
+    """Finds NP (nounp_listhrase) leaf nodes of a chunk tree."""
     for subtree in tree.subtrees(filter = lambda t: t.label()==grammar):
         yield subtree.leaves()
 
@@ -21,7 +21,7 @@ def get_terms(tree,grammar):
         yield term		
 		
 def get_np(text):
-	re = r'(?:\w+(?:-\w+)*)|(?:[-+*()$]*(?:\d.?)*\d+\%?)|(?:[.,;:"\'?])'
+	re = r'(?:\w+(?:-\w+)*)|(?:[-+*()$]*(?:\d.?)*\d+\%?)|(?:[.,;:"\'?!])'
 	grammar = r"""
 	NNB:{<JJ.*|VBG|NN.*>*<NN.*>}
 	JJN:{<DT><JJ>}
@@ -36,16 +36,16 @@ def get_np(text):
 	tree = cp.parse(t)
 
 	terms = get_terms(tree,'NP')	
-	np = []
+	np_list = []
 	for term in terms:
 		#print term
 		if term != [] and term[0] in stopwords:	#remove the first stopword
-			term.pop(0)
-		np.append(str(' '.join(term)))
+			term.pop(0)			
+		np_list.append(str(' '.join(term)))
 		
 	terms = get_terms(tree,'JJN')
 	for term in terms:
-		np.append(str(' '.join(term)))		
-	while '' in np:
-		np.remove('')
-	return np
+		np_list.append(str(' '.join(term)))		
+	while '' in np_list:
+		np_list.remove('')
+	return np_list
