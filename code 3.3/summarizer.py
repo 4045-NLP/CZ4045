@@ -4,7 +4,6 @@ import noun_phrase_detector as npd
 import operator
 
 def read_data(file_name):
-	print "reading line..."
 	data = []
 	with open(file_name, 'r') as f:
 		for line in f:
@@ -33,7 +32,6 @@ def extract_np(data):
 #	return asin
 
 def get_data_p(data, product_asin):
-	print "reading data..."
 	data_p = []	#part of the dataset
 	for i in range(len(data)):
 		if data[i]["asin"]==product_asin:
@@ -49,17 +47,20 @@ def top_fq_np(n, all_np):
 		np_fq[i][1] = np_fq[i][1] * 1.0 / total_no_np	#frequency
 	return np_fq	#a list of lists
 
-def np_fq_among_all(np, all_np):
+def get_fq(np, all_np):
 	total_no_np = sum(all_np.values())
 	f = all_np[np] * 1.0 / total_no_np
 	return f
 	
-def get_rp_list(top_10_np, all_np):	#representative noun phrase
-	rp_list = [None]*10 #[np, frequency in this product, frequency amoung all]
-	for i in range(10):
-		f = np_fq_among_all(top_10_np[i][0],all_np)
-		rp_list[i] = [top_10_np[i][0], top_10_np[i][1],f]
-	return rp_list
+def get_rp_list(p_np, all_np): #Representative noun phrase
+	rp_dict = {}
+	for np in p_np.keys():
+		fq_all = get_fq(np, all_np)	#The frequency of the noun phrase amoung all reviews
+		fq_p = get_fq(np, p_np)	#The frequency of the noun phrase in this product’s reviews
+		rp = fq_p * (fq_p -fq_all) #Representativity
+		rp_dict[np] = rp
+	rp_list = sortByValue(rp_dict)[:10]	
+	return rp_list	#a list of tuples
 	
 '''
 Q1: List the top-20 most frequent noun phrases
@@ -69,28 +70,35 @@ data = read_data("CellPhoneReview.json")
 all_np = extract_np(data)
 top_20_np = top_fq_np(20, all_np)
 
+with open('all_np.txt', 'w') as file:
+	file.write(json.dumps(all_np))
+
 with open("top-20 most frequent noun phrases.txt", 'w') as file:
 	for i in top_20_np:
 		value = ', '.join(map(str, i))
 		file.write(value + '\n')
 
 '''
-Q2: Choose 3 popular products
+Q2: Choose any 3 popular products which has the largest number of reviews, and summarize the reviews of each product by using 10 representative noun phrases.
 '''
 
-#asin = ["120401325X","3998899561","6073894996"]
-asin = ["B005SUHPO6","B0042FV2SI","B008OHNZI0"]
-p1 = get_rp_list(top_fq_np(10, extract_np(get_data_p(data, asin[0]))),all_np)
-p2 = get_rp_list(top_fq_np(10, extract_np(get_data_p(data, asin[1]))),all_np)
-p3 = get_rp_list(top_fq_np(10, extract_np(get_data_p(data, asin[2]))),all_np)
+#asin = ["120401325X","3998899561","6073894996"]	#"SampleReview.json"
+asin = ["B005SUHPO6","B0042FV2SI","B008OHNZI0"]	#"CellPhoneReview.json"
+
+rp_list1 = get_rp_list(extract_np(get_data_p(data, asin[0])), all_np)
+rp_list2 = get_rp_list(extract_np(get_data_p(data, asin[1])), all_np)
+rp_list3 = get_rp_list(extract_np(get_data_p(data, asin[2])), all_np)
 
 with open("3 popular products.txt","w") as file:
 	file.write("Product " + asin[0] + ': \n')
-	for i in p1:
-		file.write(str(i) + '\n')
+	for i in rp_list1:
+		value = ', '.join(map(str, i))
+		file.write(value + '\n')
 	file.write("Product " + asin[1] + ': \n')
-	for i in p2:
-		file.write(str(i) + '\n')
+	for i in rp_list2:
+		value = ', '.join(map(str, i))
+		file.write(value + '\n')
 	file.write("Product " + asin[2] + ': \n')
-	for i in p3:
-		file.write(str(i) + '\n')
+	for i in rp_list3:
+		value = ', '.join(map(str, i))
+		file.write(value + '\n')
