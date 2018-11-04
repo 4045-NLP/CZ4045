@@ -2,6 +2,9 @@ from collections import Counter
 import json
 import noun_phrase_detector as npd
 import operator
+from nltk.corpus import stopwords
+
+stopwords = stopwords.words('english')
 
 def read_data(file_name):
 	data = []
@@ -22,6 +25,12 @@ def extract_np(data):
 		c.update(Counter(npd.get_np(data[i]["summary"])))
 		print "extract np...", i
 	all_np = dict(c)
+	if '' in all_np:
+		all_np.pop('')
+	for w in stopwords:	#Remove single stopwords
+		if w in all_np:
+			all_np.pop(w)
+	
 	return all_np	
 
 #def extract_asin(data): 
