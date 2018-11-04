@@ -8,7 +8,7 @@ import string
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-nltk.download();
+nltk.download('all');
 
 from nltk.corpus import stopwords, words, product_reviews_2, brown, wordnet
 
