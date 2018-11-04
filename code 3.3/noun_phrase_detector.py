@@ -1,35 +1,34 @@
 import nltk
-from nltk.corpus import stopwords
 
-lemmatizer = nltk.WordNetLemmatizer()
-stopwords = stopwords.words('english')
-
-def leaves(tree,grammar):
-    """Finds NP (nounp_listhrase) leaf nodes of a chunk tree."""
-    for subtree in tree.subtrees(filter = lambda t: t.label()==grammar):
-        yield subtree.leaves()
-
-def normalise(word):
-    """Normalises words to lowercase and lemmatizes it."""
-    word = word.lower()
-    word = lemmatizer.lemmatize(word)
-    return word
-
+stopwords = ['don','doesn','wounldn','shouldn','\'t','shall',
+             'what','when','where','why','which','how']  #np can not start with these words 
+			
 def get_terms(tree,grammar):
-    for leaf in leaves(tree,grammar):
-        term = [ normalise(w) for w,t in leaf ]	
-        yield term		
+    subtrees = []
+    for s in tree:
+        if type(s) == nltk.tree.Tree and s.label() == grammar:
+            subtrees.append(s)
+    terms = []
+    for s in subtrees:
+        if s.leaves()[0][0].lower() in stopwords:
+            continue
+        term = [w.lower() for w,t in s.leaves()]
+        terms.append(term)
+    return terms
 		
 def get_np(text):
-	re = r'(?:\w+[nN]\'[tT])|(?:\w+(?:-\w+)*)|(?:[-+*()$]*(?:\d.?)*\d+\%?)|(?:\'[sS])|(?:[.,;:"?!])'
+	re = r'(?:\w+(?:-\w+)*)|(?:[-+*()$]*(?:\d.?)*\d+\%?)|(?:\'\w)|(?:[.,;:"?!\\])'
 	grammar = r"""
+        IF:{<TO><VB>}   #Infinitive
+        VP:{<MD>?<VB|VBD|VBP|VBZ><VBG|VBN|RB.*>*<IN|RP>?}
 	MOD:{<JJ.*|VBG|CD>}	#Modifier
-	NNB:{<MOD|NN.*>*<NN.*>}	#Noun + noun
+	NNB:{(<MOD|NN.*>+<IN|POS>?)*<NN.*>}	#Noun + noun
 	JJN:{<DT><MOD>}	#Adjectives as Nouns
-	NP:{<RB.*>?<DT|PRP\$>?(<NN.*><IN|POS>?)*<NN.*>}
+	PP:{<IN><N.*>}  #Prepositional phrase
+	NP:{<RB.*>?<DT|PRP\$>?<N.*><PP|IF>*}
 	{<PRP>}
 	{<NNB>}
-	{<JJN>}
+	{<JJN>}	
 	"""
 	tokens = nltk.regexp_tokenize(text, re)
 	cp = nltk.RegexpParser(grammar)	
@@ -42,7 +41,5 @@ def get_np(text):
 	np_list = []
 	for term in terms:		
 		np_list.append(str(' '.join(term)))
-	while '' in np_list:
-		np_list.remove('')
 		
 	return np_list
