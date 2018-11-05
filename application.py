@@ -4,14 +4,16 @@ import nltk
 import string
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
-
+#lists to hold the result
 result=[]
 judge=[]
 error=[]
 content=[]
 good_id=[]
+#set up sentiment analyser
 sid = SentimentIntensityAnalyzer()
 
+#make the judge score mapped to a range of (1,5)
 def score_translate(old_value,old_min,old_max,new_min,new_max):
 	OldRange=(old_max-old_min)  
 	NewRange=(new_max-new_min)  
@@ -20,6 +22,7 @@ def score_translate(old_value,old_min,old_max,new_min,new_max):
 
 #data process
 with open('CellPhoneReview.json') as datafile:
+	#for each review text do:
 	for line in datafile:
 		data = json.loads(line)
 		text=data["reviewText"]
@@ -27,7 +30,9 @@ with open('CellPhoneReview.json') as datafile:
 		overall_score=data["overall"]
 		comment_id=data["reviewerID"]
 		goodid=data["asin"]
+		#tokenize the review text
 		sens=nltk.sent_tokenize(text)
+		#inite the judge score to be 0
 		score=0
 		for sentence in sens:
 			ss=sid.polarity_scores(sentence)
