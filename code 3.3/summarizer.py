@@ -23,7 +23,7 @@ def extract_np(data):
 	for i in range(len(data)):
 		c.update(Counter(npd.get_np(data[i]["reviewText"])))
 		c.update(Counter(npd.get_np(data[i]["summary"])))
-		print "extracting np...", i
+		#print "extracting np...", i
 	all_np = dict(c)
 	if '' in all_np:
 		all_np.pop('')
@@ -74,13 +74,12 @@ def get_rp_list(p_np, all_np): #Representative noun phrase
 '''
 Q1: List the top-20 most frequent noun phrases
 '''
-#data = read_data("SampleReview.json")
-data = read_data("CellPhoneReview.json")
+data = read_data("CellPhoneReview.json")	#Put the dataset file name here
 all_np = extract_np(data)
 top_20_np = top_fq_np(20, all_np)
 
-with open('all_np.txt', 'w') as file:
-	file.write(json.dumps(all_np))
+#with open('all_np.txt', 'w') as file:
+#	file.write(json.dumps(all_np))
 
 with open("top-20 most frequent noun phrases.txt", 'w') as file:
 	for i in top_20_np:
@@ -90,9 +89,7 @@ with open("top-20 most frequent noun phrases.txt", 'w') as file:
 '''
 Q2: Choose any 3 popular products which has the largest number of reviews, and summarize the reviews of each product by using 10 representative noun phrases.
 '''
-
-#asin = ["120401325X","3998899561","6073894996"]	#"SampleReview.json"
-asin = ["B005SUHPO6","B0042FV2SI","B008OHNZI0"]	#"CellPhoneReview.json"
+asin = ["B005SUHPO6","B0042FV2SI","B008OHNZI0"]	#The items in the list can be changed to any 3 of asin in the dataset.
 
 rp_list1 = get_rp_list(extract_np(get_data_p(data, asin[0])), all_np)
 rp_list2 = get_rp_list(extract_np(get_data_p(data, asin[1])), all_np)
