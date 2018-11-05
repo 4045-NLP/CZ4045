@@ -23,11 +23,11 @@ def extract_np(data):
 	for i in range(len(data)):
 		c.update(Counter(npd.get_np(data[i]["reviewText"])))
 		c.update(Counter(npd.get_np(data[i]["summary"])))
-		print "extract np...", i
+		print "extracting np...", i
 	all_np = dict(c)
 	if '' in all_np:
 		all_np.pop('')
-	for w in stopwords:	#Remove single stopwords
+	for w in stopwords:	#Remove single stopword
 		if w in all_np:
 			all_np.pop(w)
 	
@@ -103,11 +103,11 @@ with open("3 popular products.txt","w") as file:
 	for i in rp_list1:
 		value = ', '.join(map(str, i))
 		file.write(value + '\n')
-	file.write("Product " + asin[1] + ': \n')
+	file.write("\nProduct " + asin[1] + ': \n')
 	for i in rp_list2:
 		value = ', '.join(map(str, i))
 		file.write(value + '\n')
-	file.write("Product " + asin[2] + ': \n')
+	file.write("\nProduct " + asin[2] + ': \n')
 	for i in rp_list3:
 		value = ', '.join(map(str, i))
 		file.write(value + '\n')

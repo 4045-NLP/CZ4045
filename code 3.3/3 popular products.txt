@@ -1,33 +1,35 @@
 Product B005SUHPO6: 
-it, 0.00118918523952
-this case, 0.000181685773505
-the case, 0.000141395112744
-the phone, 6.63617164564e-05
-he, 5.55659140729e-05
-my phone, 4.67349069477e-05
-otterbox, 3.99631313278e-05
-she, 3.35193193203e-05
-your phone, 1.97223707452e-05
-my iphone, 1.58019652208e-05
+this case, 0.000211555299263
+otterbox, 8.7861814269e-05
+the case, 7.0415428946e-05
+the phone, 3.78656954024e-05
+my phone, 2.55404444592e-05
+great case, 2.14902712994e-05
+your phone, 1.74357153948e-05
+great product, 1.15659252264e-05
+this product, 7.38219582345e-06
+the rubber, 6.56758829373e-06
+
 Product B0042FV2SI: 
-it, 0.00617755010452
-i, 0.00272304985746
-they, 0.000205712668099
-the screen, 0.000101947378058
-my phone, 7.93769154003e-05
-them, 6.95533600409e-05
-this screen protector, 1.87391128617e-05
-the price, 1.4883240911e-05
-bubble, 1.48830811043e-05
-the screen protector, 1.48681416371e-05
+the screen, 9.29010904699e-05
+my phone, 5.23144381299e-05
+works, 5.0251594391e-05
+this product, 3.9260136277e-05
+these screen protectors, 2.07720765182e-05
+bubbles, 2.07461765333e-05
+this screen protector, 1.9821746302e-05
+perfect, 1.98163558381e-05
+the matte finish, 1.91119489743e-05
+the screen protector, 1.80964088444e-05
+
 Product B008OHNZI0: 
-i, 0.00265848567935
-the screen, 0.00015558969942
-they, 0.000154926785795
-you, 0.000118139050017
-the screen protector, 6.10341519436e-05
-the protector, 3.18378902233e-05
-tech armor, 2.45034497081e-05
-them, 2.05557010689e-05
-no bubble, 1.68051398587e-05
-my iphone, 1.50404700997e-05
+the screen, 8.73006451724e-05
+the screen protector, 4.34712875663e-05
+tech armor, 3.40318396503e-05
+no bubbles, 2.78093928288e-05
+this product, 2.597679669e-05
+great product, 2.54197470302e-05
+the protector, 2.47525392724e-05
+this screen protector, 1.02306279066e-05
+these screen protectors, 8.87718512623e-06
+the instructions, 7.38581224613e-06
